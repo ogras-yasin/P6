@@ -6,7 +6,7 @@ const Users = require('./models/users')
 const userRoutes = require('./routes/user');
 // const piquanteCtrl = require('./routes/piquante')
 app.use(express.json()); //cela permet d'intercepter toute les requete en format json
-//on a acees au req donc je peux acceder au req.body grace a app.use(express.json())
+//on a acces au req donc je peux acceder au req.body grace a app.use(express.json())
 //  la methode ancienne est body.parser
 
 /*connection server  mongo DB atlas*/
@@ -27,7 +27,7 @@ app.use((req, res, next) => {
   });
 
 
-app.post('/api/auth/signup',userRoutes)
+app.post('/api/auth/signup', userRoutes)
 
 
 app.use((req, res, next) => {
