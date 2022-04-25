@@ -2,16 +2,16 @@ const express = require('express');
 
 const router = express.Router();
 
-router.post('',(req, res, next) => {
-    console.log('try to signup');
-    delete req.body._id;
-    const users = new Users({
-      ...req.body
-    })
-    users.save()
-    .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
-    .catch(error => res.status(400).json({ error }));
-  })
+// router.post('',(req, res, next) => {
+//     console.log('try to signup');
+//     delete req.body._id;
+//     const users = new Users({
+//       ...req.body
+//     })
+//     users.save()
+//     .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
+//     .catch(error => res.status(400).json({ error }));
+//   })
 
 // its difficult 
 module.exports = router;

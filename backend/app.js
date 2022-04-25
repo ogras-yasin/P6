@@ -3,11 +3,13 @@ const mongoose = require('mongoose');
 const app = express();
 const Sauce = require('./models/modelsSauce')
 const Users = require('./models/users')
-
-const piquanteCtrl = require('./routes/piquante')
-
 const userRoutes = require('./routes/user');
+// const piquanteCtrl = require('./routes/piquante')
+app.use(express.json()); //cela permet d'intercepter toute les requete en format json
+//on a acees au req donc je peux acceder au req.body grace a app.use(express.json())
+//  la methode ancienne est body.parser
 
+/*connection server  mongo DB atlas*/
 mongoose.connect('mongodb+srv://gs_yasin:azerty17@cluster0.fgdhg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   { useNewUrlParser: true, 
     useUnifiedTopology: true })
@@ -16,7 +18,7 @@ mongoose.connect('mongodb+srv://gs_yasin:azerty17@cluster0.fgdhg.mongodb.net/myF
   
 
 
-
+/*CORS*/
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -24,18 +26,17 @@ app.use((req, res, next) => {
     next();
   });
 
-app.post('/api/auth/signup',piquanteCtrl)
+
+app.post('/api/auth/signup',userRoutes)
 
 
-
-app.use((req, res) => {
-  console.log(req.body)
-  console.log("req.body")
- res.json({ message: 'Votre requête a bien été reçue !' }); 
+app.use((req, res, next) => {
+  console.log(req.body); // a chaque fois que je realise ou quelqun realise une requete je vais
+  // // recevoir un req.body ds la consoles
+  res.status(201).json({
+    message: 'Objet créé !'
+  });
 });
-
-// app.use()
-
 
   module.exports = app;
 
