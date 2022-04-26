@@ -22,7 +22,7 @@ const bcrypt = require('bcrypt')
     });
   };
 
-//   cherry pick 2 
+//   cherry pick 2 3
 
 exports.login = (req, res, next) => {
     User.findOne({ email: req.body.email })
@@ -39,7 +39,7 @@ exports.login = (req, res, next) => {
               userId: user._id,
               token: 'TOKEN'
             });
-          }) 
+          })
           .catch(error => res.status(500).json({ error }));
       })
       .catch(error => res.status(500).json({ error }));
