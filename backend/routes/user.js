@@ -7,10 +7,7 @@ const User = require('../models/users')
 // je ne comprend pas pourquoi on met une route ici '/' un middleware ds un middleware
 router.post('/', userCtrl.signup)
 
-
-
-
-// router.post('/login', userCtrl.login);
+router.post('/', userCtrl.login);
 
 module.exports = router;
 

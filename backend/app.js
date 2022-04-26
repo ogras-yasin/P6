@@ -27,8 +27,8 @@ app.use((req, res, next) => {
   });
 
 
-app.post('/api/auth/signup', userRoutes)
-
+app.use('/api/auth/signup', userRoutes)
+app.post('api/auth/login', userRoutes)
 
 app.use((req, res, next) => {
   console.log(req.body); // a chaque fois que je realise ou quelqun realise une requete je vais
