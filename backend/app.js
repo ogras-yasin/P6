@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const Sauce = require('./models/modelsSauce')
-const Users = require('./models/users')
+const User = require('./models/users')
 const userRoutes = require('./routes/user');
 // const piquanteCtrl = require('./routes/piquante')
 app.use(express.json()); //cela permet d'intercepter toute les requete en format json
