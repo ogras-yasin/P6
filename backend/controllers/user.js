@@ -23,7 +23,7 @@ const bcrypt = require('bcrypt')
   };
 
 //   cherry pick 2 
-
+  
 exports.login = (req, res, next) => {
     User.findOne({ email: req.body.email })
       .then(user => {
