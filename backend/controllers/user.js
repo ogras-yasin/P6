@@ -37,7 +37,7 @@ exports.login = (req, res, next) => {
               userId: user._id,
               token: 'TOKEN'
             });
-          })
+          }) 
           .catch(error => res.status(500).json({ error }));
       })
       .catch(error => res.status(500).json({ error }));
