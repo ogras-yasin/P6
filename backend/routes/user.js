@@ -3,11 +3,14 @@ const router = express.Router();
 
 const userCtrl = require('../controllers/user');
 const User = require('../models/users')
+  const auth = require('../middleware/auth');
 
 // je ne comprend pas pourquoi on met une route ici '/' un middleware ds un middleware
-router.post('/', userCtrl.signup)
+router.post('/signup', auth, userCtrl.signup)
 
-router.post('/', userCtrl.login);
+router.post('/login', auth,  userCtrl.login);
+ 
+
 
 module.exports = router;
 
