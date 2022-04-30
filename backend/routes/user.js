@@ -1,21 +1,22 @@
 const express = require('express');
 const router = express.Router();
-
 const userCtrl = require('../controllers/user');
-const User = require('../models/users')
-  const auth = require('../middleware/auth');
+const auth = require('../middleware/auth');
 
-// je ne comprend pas pourquoi on met une route ici '/' un middleware ds un middleware
-router.post('/signup', auth, userCtrl.signup)
+// router.post('/signup', auth, userCtrl.signup)
+// router.post('/login', auth,  userCtrl.login);
 
-router.post('/login', auth,  userCtrl.login);
+// sans auth dans un premmier temps 
+router.post('/signup', userCtrl.signup)
+router.post('/login', userCtrl.login);
+
  
 
 
 module.exports = router;
 
 
-
+ 
 
 
 
