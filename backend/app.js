@@ -24,19 +24,18 @@ app.use((req, res, next) => {
     next();
   });
 
-app.use('/api/auth',userRoutes)
+  
 app.use('/api/auth',userRoutes)
 
+app.use((req, res) => {
+  console.log(req.body)
+  // console.log("req.body")
+ res.json({ message: 'Votre requête a bien été reçue !' }); 
+});
 
 
   module.exports = app;
 
-
-// app.use((req, res) => {
-// //   console.log(req.body)
-// //   // console.log("req.body")
-// //  res.json({ message: 'Votre requête a bien été reçue !' }); 
-// });
 
 
   // app.use('/aga/:agaId', (req, res) => {

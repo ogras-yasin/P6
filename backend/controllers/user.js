@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
   exports.signup = (req, res, next) => {
   
     bcrypt.hash(req.body.password, 10)
-      .then(hash => {
+      .then((hash) => {
         const user = new User({
           email: req.body.email,
           password: hash
@@ -17,7 +17,7 @@ const jwt = require('jsonwebtoken');
       })
     .catch(error => {
         console.log(error)
-        res.status(500).json({ error })
+        res.status(500).json({ error : "ceci est une erreur de serveur"})
     });
   };
 
