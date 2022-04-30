@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const app = express();
+// const app = express();
 const Sauce = require('./models/modelsSauce') //gerek yok zannediyorum car on utilise userRoutes
 const Users = require('./models/users')//gerek yok zannediyorum
 
@@ -14,7 +14,7 @@ mongoose.connect('mongodb+srv://gs_yasin:azerty17@cluster0.fgdhg.mongodb.net/myF
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
   
-
+const app = express();
 
 
 app.use((req, res, next) => {
@@ -24,20 +24,20 @@ app.use((req, res, next) => {
     next();
   });
 
-app.post('/api/auth',userRoutes)
-app.post('/api/auth',userRoutes)
-
-
-
-app.use((req, res) => {
-  console.log(req.body)
-  // console.log("req.body")
- res.json({ message: 'Votre requête a bien été reçue !' }); 
-});
+app.use('/api/auth',userRoutes)
+app.use('/api/auth',userRoutes)
 
 
 
   module.exports = app;
+
+
+// app.use((req, res) => {
+// //   console.log(req.body)
+// //   // console.log("req.body")
+// //  res.json({ message: 'Votre requête a bien été reçue !' }); 
+// });
+
 
   // app.use('/aga/:agaId', (req, res) => {
 //   console.log(req.params);  
