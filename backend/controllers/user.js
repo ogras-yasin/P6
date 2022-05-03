@@ -13,7 +13,7 @@ const jwt = require('jsonwebtoken');
         // console.log(user);//verifier si je RENVOIE une res
         user.save()
           .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-          .catch(error => res.status(400).json({ error }));
+          .catch(error => res.status(400).json({ error: 'Ce nom Utilisateur est déjà utilisé' }));
       })
     .catch(error => {
         console.log(error)
