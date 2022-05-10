@@ -1,28 +1,31 @@
 // const express = require("express");
 const Sauce = require("../models/modelsSauce");
+const fs = require("fs"); // Importation du package file system 'fs'
 
-exports.createPiquante = (req, res, next) => {
-  // supprimer le _id car une _id est créer d'office
+// AJOUTER UNE NOUVELLE SAUCE : Middleware pour ajouter une sauce
+exports.createSauce = (req, res, next) => {
+  console.log(req)
+  // suprimer l'id creer d'office 
   delete req.body._id;
-  // nouveau Sauce  a partir du model modelsSauce
+  // nouvelle Sauce  a partir du model modelsSauce
   const sauce = new Sauce({
-    // userId: req.body.userId,
-    // users Id : ce que l'on passe dans body userId  [clé:valeur]
-
+    // // users Id : ce que l'on passe dans body userId  [clé:valeur]
     userId: req.body.userId,
     name: req.body.name,
     manufacturer: req.body.manufacturer,
     description: req.body.description,
     mainPepper: req.body.mainPepper,
-    imageUrl: req.body.imageUrl,
+    // imageUrl: req.body.imageUrl,
     heat: req.body.heat,
     likes: req.body.likes,
     dislikes: req.body.dislikes,
     usersLiked: req.body.usersLiked,
     usersDisliked: req.body.usersDisliked,
-    // ...req.body
+    imageUrl: `${request.protocol}://${request.get("host")}/images/${
+      request.file.filename
+    }`,
+    // ...req.body //raccourci operateur etablit une copie de tous les elements de req.body
   });
-
   sauce
     // sauvegarde ds mongoDB
     .save()
@@ -35,7 +38,7 @@ exports.createPiquante = (req, res, next) => {
       res.status(400).json({
         error: error,
       });
-      console.log("not save in mongo db (ins sen cikmassin karsima )");
+      console.log("not save in mongo db");
     });
 };
 

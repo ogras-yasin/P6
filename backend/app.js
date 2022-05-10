@@ -26,26 +26,19 @@ app.use((req, res, next) => {
   next();
 });
 
-/*
-  The app.use() function adds a new middleware to the app. Essentially, whenever a request hits your backend, 
-  Express will execute the functions you passed to app.use() in order. 
-  express.json() is a built in middleware function in Express starting from v4.16.0. It parses incoming JSON requests and puts the parsed data in req.body.
-   */
+
 // Permet de parser et de mettre dans le body toutes les requetes
 app.use(express.json());
 
-const test = { yes: "son", second: "guillement 1 seule" };
-
 // app.use('/api',userRoutes)
 app.use("/api/auth", userRoutes); //routes + auth
-// c'est quoi la route du sauce
-// premier objectif est de creer la route post
+
 app.use("api/sauces", piquanteRoutes);
 
-app.use((req, res) => {
-  console.log(req.body);
-  res.json({ message: "Votre requête a bien été reçue !" });
-});
+// app.use((req, res) => {
+//   console.log(req.body);
+//   res.json({ message: "Votre requête a bien été reçue !" });
+// });
 
 module.exports = app;
 
@@ -53,3 +46,15 @@ module.exports = app;
 // const Users = require('./models/users')//gerek yok zannediyorum
 
 // const piquanteCtrl = require("./routes/piquante");
+
+
+
+/*
+  The app.use() function adds a new middleware to the app. Essentially, whenever a request hits your backend, 
+  Express will execute the functions you passed to app.use() in order. 
+  express.json() is a built in middleware function in Express starting from v4.16.0. It parses incoming JSON requests and puts the parsed data in req.body.
+   */
+
+
+  // c'est quoi la route du sauce
+// premier objectif est de creer la route post

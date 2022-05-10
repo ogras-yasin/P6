@@ -25,16 +25,20 @@ exports.signup = (req, res, next) => {
     });
 };
 
+// CONNEXION : Middleware pour connecter les utilisateurs existants
 exports.login = (req, res, next) => {
-  // cherche dans la BD User un email qui correspond a la req email.
-  //  Donc findone compare l'email BD avec la req email envoye par le client(serveur web)
+   // Chercher l'utilisateur dans la base de données
   User.findOne({ email: req.body.email })
     .then((user) => {
       // si utilisateur errone
       if (!user) {
         return res.status(401).json({ error: "Utilisateur non trouvé !" });
       }
+       // Utilisateur trouvé
+      // Comparaison du mot de passe envoyé par l'utilisateur qui essai de se connecter avec le hash qui est enregistré dans la base de données
+      // bcrypt.compare(mot de passe envoyé dans la requête, hash enregistré dans le document user)
       bcrypt
+      
         .compare(req.body.password, user.password)
         .then((valid) => {
           // si le mot de passe est errone
