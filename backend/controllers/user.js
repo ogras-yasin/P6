@@ -1,126 +1,111 @@
-const User = require('../models/users')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken');
+const User = require("../models/users");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-  exports.signup = (req, res, next) => {
-  
-    bcrypt.hash(req.body.password, 10)
-      .then((hash) => {
-        const user = new User({
-          email: req.body.email,
-          password: hash
-        });
-        // console.log(user);//verifier si je RENVOIE une res
-        user.save()
-          .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-          .catch(error => res.status(400).json({ error: 'Ce nom Utilisateur est déjà utilisé' }));
-      })
-    .catch(error => {
-        console.log(error)
-        res.status(500).json({ error : "ceci est une erreur de serveur"})
+exports.signup = (req, res, next) => {
+  bcrypt
+    .hash(req.body.password, 10)
+    .then((hash) => {
+      const user = new User({
+        email: req.body.email,
+        password: hash,
+      });
+      // console.log(user);//verifier si je RENVOIE une res
+      user
+        .save()
+        // type de message attendue { message: string } accomplie
+        .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
+        .catch((error) =>
+          res.status(400).json({ error: "Ce nom Utilisateur est déjà utilisé" })
+        );
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({ error: "ceci est une erreur de serveur" });
     });
-  };
-
-//   cherry pick 2 
-// le vraie code avec un token dynamique
+};
 
 exports.login = (req, res, next) => {
-    User.findOne({ email: req.body.email })
-      .then(user => {
-        if (!user) {
-          return res.status(401).json({ error: 'Utilisateur non trouvé !' });
-        }
-        bcrypt.compare(req.body.password, user.password)
-          .then(valid => {
-            if (!valid) {
-              return res.status(401).json({ error: 'Mot de passe incorrect !' });
-            }
-            console.log('login')
-            res.status(200).json({
-              userId: user._id,
-              token: jwt.sign(
-                { userId: user._id },
-                'RANDOM_TOKEN_SECRET',
-                { expiresIn: '24h' }
-              )
-            });
-          })
-          .catch(error => res.status(500).json({ error }));
-      })
-      .catch(error => res.status(500).json({ error }));
-  };
+  // cherche dans la BD User un email qui correspond a la req email.
+  //  Donc findone compare l'email BD avec la req email envoye par le client(serveur web)
+  User.findOne({ email: req.body.email })
+    .then((user) => {
+      // si utilisateur errone
+      if (!user) {
+        return res.status(401).json({ error: "Utilisateur non trouvé !" });
+      }
+      bcrypt
+        .compare(req.body.password, user.password)
+        .then((valid) => {
+          // si le mot de passe est errone
+          if (!valid) {
+            return res.status(401).json({ error: "Mot de passe incorrect !" });
+          }
+          console.log("login");
+          // si tout est bon
+          res.status(200).json({
+            userId: user._id,
+            token: jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
+              expiresIn: "24h",
+            }),
+          });
+        })
+        .catch((error) => res.status(500).json({ error }));
+    })
+    .catch((error) => res.status(500).json({ error }));
+};
 
+// bcrypt
+// .hash(req.body.password, 10)
+// .then(function(hash){
+//   const user = new User({
+//           email: req.body.email,
+//           password: hash,
+//         });
+//   user.save().then(res.status(201).json({ message: 'Utilisateur créé !' }))
+//   .catch(res.status(404).json({ error }));
+// }).catch(function(error){
+//   res.status(500).json({error: error})
+// });
 
-    // bcrypt
-    // .hash(req.body.password, 10) 
-    // .then(function(hash){
-    //   const user = new User({
-    //           email: req.body.email, 
-    //           password: hash,
-    //         });
-    //   user.save().then(res.status(201).json({ message: 'Utilisateur créé !' }))
-    //   .catch(res.status(404).json({ error }));     
-    // }).catch(function(error){
-    //   res.status(500).json({error: error})
-    // });
+// exports.login = (req, res, next) => {
+//   User.findOne({ email: req.body.email })
+//     .then(user => {
+//       if (!user) {
+//         return res.status(401).json({ error: 'Utilisateur non trouvé !' });
+//       }
+//       bcrypt.compare(req.body.password, user.password)
+//         .then(valid => {
+//           if (!valid) {
+//             return res.status(401).json({ error: 'Mot de passe incorrect !' });
+//           }
+//           res.status(200).json({
+//             userId: user._id,
+//             token: 'TOKEN je suis un exemple'
+//           });
+//         })
+//         .catch(error => res.status(500).json({ error }));
+//     })
+//     .catch(error => res.status(500).json({ error }));
+// };
 
+// code du cours
 
+// const User = require('../models/users')
 
-
-
-  // exports.login = (req, res, next) => {
-  //   User.findOne({ email: req.body.email })
-  //     .then(user => {
-  //       if (!user) {
-  //         return res.status(401).json({ error: 'Utilisateur non trouvé !' });
-  //       }
-  //       bcrypt.compare(req.body.password, user.password)
-  //         .then(valid => {
-  //           if (!valid) {
-  //             return res.status(401).json({ error: 'Mot de passe incorrect !' });
-  //           }
-  //           res.status(200).json({
-  //             userId: user._id,
-  //             token: 'TOKEN je suis un exemple'
-  //           });
-  //         })
-  //         .catch(error => res.status(500).json({ error }));
-  //     })
-  //     .catch(error => res.status(500).json({ error }));
-  // };
-
-
-// code du cours 
-
-  // const User = require('../models/users')
-
-  // exports.signup = (req, res, next) => {
-  //   bcrypt.hash(req.body.password, 10)
-  //     .then(hash => {
-  //       const user = new User({
-  //         email: req.body.email,
-  //         password: hash
-  //       });
-  //       user.save()
-  //         .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-  //         .catch(error => res.status(400).json({ error }));
-  //     })
-  //     .catch(error => res.status(500).json({ error }));
-  // };
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
+// exports.signup = (req, res, next) => {
+//   bcrypt.hash(req.body.password, 10)
+//     .then(hash => {
+//       const user = new User({
+//         email: req.body.email,
+//         password: hash
+//       });
+//       user.save()
+//         .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+//         .catch(error => res.status(400).json({ error }));
+//     })
+//     .catch(error => res.status(500).json({ error }));
+// };
 
 // exports.signup = (req, res, next) => { bu benimki
 //     console.log('try to signup');
@@ -133,16 +118,13 @@ exports.login = (req, res, next) => {
 //     .catch(error => res.status(400).json({ error }));
 //   }
 
-// alinti  
-
-
+// alinti
 
 // const User = require("../models/user");
 // const bcrypt = require('bcrypt')
 // const jwt = require('jsonwebtoken')
 // const cryptojs = require('crypto-js');
 // require('dotenv').config();
-
 
 // exports.signup = (req, res, next) => {
 //   const hashedEmail = cryptojs.HmacSHA512(req.body.email, process.env.SECRET_CRYPTOJS_TOKEN).toString(cryptojs.enc.Base64);
@@ -156,7 +138,7 @@ exports.login = (req, res, next) => {
 //         .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
 //         .catch(error => res.status(400).json({ error }));
 //     })
-//     .catch(error => { 
+//     .catch(error => {
 //       console.log(error)
 //       return res.status(500).json({ error }) });
 // };

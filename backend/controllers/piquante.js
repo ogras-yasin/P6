@@ -1,38 +1,11 @@
-const express = require("express");
-const router = express.Router();
-const piquanteCtrl = require("../controllers/piquante");
-// ?! ce signe veut dire c'est bon ou pas
-// model sauce // sauce en miniscule ?!
-const Sauce = require("../models/modelsSauce"); // Sauce we add here pr in controllers ?
-const auth = require("../middleware/auth");
+// const express = require("express");
+const Sauce = require("../models/modelsSauce");
 
-// const Thing = require("../models/thing");
-
-router.post("/", piquanteCtrl.createPiquante);
-
-router.get("/:id", piquanteCtrl.findSingleSauce);
-
-router.put("/:id", piquanteCtrl.modifySauce);
-
-router.delete("/:id", piquanteCtrl.deleteSauce);
-
-// likes a créé
-// router.post("/:id", piquanteCtrl.likes);
-
-router.get("/" + "", piquanteCtrl.getAllSauce);
-
-module.exports = router;
-
-/*
-router.post("/", (req, res, next) => {
+exports.createPiquante = (req, res, next) => {
   // supprimer le _id car une _id est créer d'office
   delete req.body._id;
   // nouveau Sauce  a partir du model modelsSauce
   const sauce = new Sauce({
-    // title: req.body.title,
-    // description: req.body.description,
-    // imageUrl: req.body.imageUrl,
-    // price: req.body.price,
     // userId: req.body.userId,
     // users Id : ce que l'on passe dans body userId  [clé:valeur]
 
@@ -64,28 +37,23 @@ router.post("/", (req, res, next) => {
       });
       console.log("not save in mongo db (ins sen cikmassin karsima )");
     });
-});
+};
 
-
-
-
-router.get("/:id", (req, res, next) => {
+exports.findSingleSauce = (req, res, next) => {
   Sauce.findOne({
     _id: req.params.id,
   })
-    .then((thing) => {
-      res.status(200).json(thing);
+    .then((sauce) => {
+      res.status(200).json(sauce);
     })
     .catch((error) => {
       res.status(404).json({
         error: error,
       });
     });
-});
+};
 
-
-
-router.put("/:id", (req, res, next) => {
+exports.modifySauce = (req, res, next) => {
   const sauce = new Sauce({
     userId: req.body.userId,
     name: req.body.name,
@@ -110,10 +78,10 @@ router.put("/:id", (req, res, next) => {
         error: error,
       });
     });
-});
-
-router.delete("/:id", (req, res, next) => {
-  Thing.deleteOne({ _id: req.params.id })
+};
+exports.deleteSauce = (req, res, next) => {
+  // not sure if sauce is not enough
+  Sauce.deleteOne({ _id: req.params.id })
     .then(() => {
       res.status(200).json({
         message: "Deleted!",
@@ -124,7 +92,19 @@ router.delete("/:id", (req, res, next) => {
         error: error,
       });
     });
-});
+};
 
+exports.getAllSauce = (req, res, next) => {
+  // trouver dans sauce ?!
+  Sauce.find()
+    .then((things) => {
+      res.status(200).json(things);
+    })
+    .catch((error) => {
+      res.status(400).json({
+        error: error,
+      });
+    });
+};
 
-*/
+// exports.like;
