@@ -4,28 +4,19 @@ const fs = require("fs"); // Importation du package file system 'fs'
 
 // AJOUTER UNE NOUVELLE SAUCE : Middleware pour ajouter une sauce
 exports.createSauce = (req, res, next) => {
-  console.log(req.body) // pour voir si on recoit une reponse NON je ne recois rien du tout
-  // suprimer l'id creer d'office 
-  delete req.body._id;
+  console.log(req.body ) // pour voir si on recoit une reponse NON je ne recois rien du tout
+  // ONEMLI // Transforme la chaîne de caractère en objet
+  const sauceObject = JSON.parse(req.body.sauce)
+   // suprimer l'id creer d'office 
+  delete sauceObject._id;
   // nouvelle Sauce  a partir du model modelsSauce
   const sauce = new Sauce({
-    // // users Id : ce que l'on passe dans body userId  [clé:valeur]
-    userId: req.body.userId,
-    name: req.body.name,
-    manufacturer: req.body.manufacturer,
-    description: req.body.description,
-    mainPepper: req.body.mainPepper,
-    // imageUrl: req.body.imageUrl,
-    heat: req.body.heat,
-    likes: req.body.likes,
-    dislikes: req.body.dislikes,
-    usersLiked: req.body.usersLiked,
-    usersDisliked: req.body.usersDisliked,
+    ...sauceObject,
     imageUrl: `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
     }`,
-    // ...req.body //raccourci operateur etablit une copie de tous les elements de req.body
   });
+  
   sauce
     // sauvegarde ds mongoDB
     .save()
@@ -42,12 +33,15 @@ exports.createSauce = (req, res, next) => {
     });
 };
 
+// VOIR UNE SAUCE : Middleware pour voir une sauce
+// rien ne s'affiche lorsque je clique trouver et resoudre le probleme
 exports.findSingleSauce = (req, res, next) => {
   Sauce.findOne({
     _id: req.params.id,
   })
     .then((sauce) => {
       res.status(200).json(sauce);
+      console.log('tu as reussi a choisir une sauce par son id')
     })
     .catch((error) => {
       res.status(404).json({
@@ -56,21 +50,24 @@ exports.findSingleSauce = (req, res, next) => {
     });
 };
 
+
+
+
+// peut etre a modifier 
 exports.modifySauce = (req, res, next) => {
-  const sauce = new Sauce({
-    userId: req.body.userId,
-    name: req.body.name,
-    manufacturer: req.body.manufacturer,
-    description: req.body.description,
-    mainPepper: req.body.mainPepper,
-    imageUrl: req.body.imageUrl,
-    heat: req.body.heat,
-    likes: req.body.likes,
-    dislikes: req.body.dislikes,
-    usersLiked: req.body.usersLiked,
-    usersDisliked: req.body.usersDisliked,
-  });
-  Thing.updateOne({ _id: req.params.id }, thing)
+  const sauceObject = req.file ? {
+...JSON.parse(req.body.sauce),
+imageUrl: `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
+    }`,
+  } : {...req.body.sauce}
+
+  // not sure if its right
+  // Sauce.updateOne({ _id: req.params.id }, sauce)
+  // On prend ce identifiant et on modifie 
+  // pour qui correspond aux parametres de la req
+  Sauce.updateOne({ ...req.body, id }, sauce)
+
     .then(() => {
       res.status(201).json({
         message: "Sauce updated successfully!",
@@ -99,9 +96,10 @@ exports.deleteSauce = (req, res, next) => {
 
 exports.getAllSauce = (req, res, next) => {
   // trouver dans sauce ?!
+  console.log((req.body) + 'choisir toutes les sauces')
   Sauce.find()
-    .then((things) => {
-      res.status(200).json(things);
+    .then((allSauce) => {
+      res.status(200).json(allSauce);
     })
     .catch((error) => {
       res.status(400).json({

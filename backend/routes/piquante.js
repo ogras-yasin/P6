@@ -9,7 +9,7 @@ router.post("/", auth, multer, piquanteCtrl.createSauce);
 
 router.get("/:id", auth, piquanteCtrl.findSingleSauce);
 
-router.put("/:id", auth, piquanteCtrl.modifySauce);
+router.put("/:id", auth, multer, piquanteCtrl.modifySauce);
 
 router.delete("/:id", auth, piquanteCtrl.deleteSauce);
 
