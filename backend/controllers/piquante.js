@@ -4,7 +4,7 @@ const fs = require("fs"); // Importation du package file system 'fs'
 
 // AJOUTER UNE NOUVELLE SAUCE : Middleware pour ajouter une sauce
 exports.createSauce = (req, res, next) => {
-  console.log(req)
+  console.log(req.body) // pour voir si on recoit une reponse NON je ne recois rien du tout
   // suprimer l'id creer d'office 
   delete req.body._id;
   // nouvelle Sauce  a partir du model modelsSauce
@@ -21,8 +21,8 @@ exports.createSauce = (req, res, next) => {
     dislikes: req.body.dislikes,
     usersLiked: req.body.usersLiked,
     usersDisliked: req.body.usersDisliked,
-    imageUrl: `${request.protocol}://${request.get("host")}/images/${
-      request.file.filename
+    imageUrl: `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
     }`,
     // ...req.body //raccourci operateur etablit une copie de tous les elements de req.body
   });

@@ -7,8 +7,9 @@ const modelsSauceSchema = mongoose.Schema({
   manufacturer: { type: String, required: true },
   description: { type: String, required: true },
   mainPepper: { type: String, required: true },
-  imageUrl: {}, //{ type: String, required: true },
-  heat: {}, //{type: String, required: true},
+  imageUrl: {},
+  // imageUrl: {type: File, required: true}, // error : file is not defined
+  heat: {}, 
   likes: {type: Number, defaut:0},
   dislikes: {type: Number, defaut:0},
   usersLiked: {type: String},

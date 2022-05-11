@@ -30,24 +30,14 @@ app.use((req, res, next) => {
 // Permet de parser et de mettre dans le body toutes les requetes
 app.use(express.json());
 
-// app.use('/api',userRoutes)
-app.use("/api/auth", userRoutes); //routes + auth
+app.use("/api/auth", userRoutes); 
+app.use("/api/sauces", piquanteRoutes);
 
-app.use("api/sauces", piquanteRoutes);
-
-// app.use((req, res) => {
-//   console.log(req.body);
-//   res.json({ message: "Votre requête a bien été reçue !" });
-// });
+app.use((req, res) => {
+  res.json({ message: "Votre requête a bien été reçue !" });
+});
 
 module.exports = app;
-
-// const Sauce = require('./models/modelsSauce') //gerek yok zannediyorum car on utilise userRoutes
-// const Users = require('./models/users')//gerek yok zannediyorum
-
-// const piquanteCtrl = require("./routes/piquante");
-
-
 
 /*
   The app.use() function adds a new middleware to the app. Essentially, whenever a request hits your backend, 
@@ -58,3 +48,6 @@ module.exports = app;
 
   // c'est quoi la route du sauce
 // premier objectif est de creer la route post
+
+
+////////
