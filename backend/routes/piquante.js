@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const piquanteCtrl = require("../controllers/piquante");
+// importation du middleware multer pour la gestion des fichiers images 
 const multer = require('../middleware/multer-config');
 
 const auth = require("../middleware/auth");

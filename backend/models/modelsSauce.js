@@ -10,10 +10,13 @@ const modelsSauceSchema = mongoose.Schema({
   imageUrl: {},
   // imageUrl: {type: File, required: true}, // error : file is not defined
   heat: {}, 
-  likes: {type: Number, defaut:0},
-  dislikes: {type: Number, defaut:0},
-  usersLiked: {type: String},
-  usersDisliked: {type: String},
+  likes: {type: Number, default:0},
+  dislikes: {type: Number, default:0},
+    // pourquoi [String] avec des crochets ?? 
+    // default property ?? 
+    // usersLiked: [ "String <userId>" ] — tableau des identifiants des utilisateurs qui ont aimé (= liked) la sauce
+  usersLiked: {type: [String], default:[]},
+  usersDisliked: {type: [String], default:[]},
 });
 
 module.exports = mongoose.model("Sauce", modelsSauceSchema);

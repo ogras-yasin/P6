@@ -52,16 +52,14 @@ exports.findSingleSauce = (req, res, next) => {
 
 
 
-
+// error a modify 
 // peut etre a modifier 
 exports.modifySauce = (req, res, next) => {
   const sauceObject = req.file ? {
 ...JSON.parse(req.body.sauce),
-imageUrl: `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
-    }`,
+imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
   } : {...req.body.sauce}
-
+console.log(req.body.sauce)
   // not sure if its right
   // Sauce.updateOne({ _id: req.params.id }, sauce)
   // On prend ce identifiant et on modifie 
@@ -76,9 +74,13 @@ imageUrl: `${req.protocol}://${req.get("host")}/images/${
     .catch((error) => {
       res.status(400).json({
         error: error,
-      });
+      });console.log('sauce not update')
     });
 };
+
+
+
+
 exports.deleteSauce = (req, res, next) => {
   // not sure if sauce is not enough
   Sauce.deleteOne({ _id: req.params.id })

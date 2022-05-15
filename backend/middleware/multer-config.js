@@ -24,6 +24,8 @@ const storage = multer.diskStorage({
     const extension = MIME_TYPES[file.mimetype];
     // En argument 1 : 'null' pour dire qu'il n'y a pas eut d'erreur
     // En argument 2 : le nom de fichier entier
+    //date.now() renvoie le nombre de millisecondes depuis 1970 
+    // /ici on n'utilise pour donner un id unique, d'ou" "name+Date.now()"
     callback(null, name + Date.now() + "." + extension);
   },
 }); // Création d'un objet de configuration pour 'multer'
