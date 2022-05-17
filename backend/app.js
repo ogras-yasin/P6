@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const userRoutes = require("./routes/user");
 const piquanteRoutes = require("./routes/piquante");
-const path = require('path');
+const path = require("path");
 
 mongoose
   .connect(
@@ -27,15 +27,12 @@ app.use((req, res, next) => {
   next();
 });
 
-
 // Permet de parser et de mettre dans le body toutes les requetes
 app.use(express.json());
 // /image avant ou apres
-app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use("/api/auth", userRoutes); 
+app.use("/images", express.static(path.join(__dirname, "images")));
+app.use("/api/auth", userRoutes);
 app.use("/api/sauces", piquanteRoutes);
-
-
 
 app.use((req, res) => {
   res.json({ message: "Votre requête a bien été reçue !" });
@@ -49,9 +46,7 @@ module.exports = app;
   express.json() is a built in middleware function in Express starting from v4.16.0. It parses incoming JSON requests and puts the parsed data in req.body.
    */
 
-
-  // c'est quoi la route du sauce
+// c'est quoi la route du sauce
 // premier objectif est de creer la route post
-
 
 ////////

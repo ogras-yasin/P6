@@ -4,10 +4,10 @@ const fs = require("fs"); // Importation du package file system 'fs'
 
 // AJOUTER UNE NOUVELLE SAUCE : Middleware pour ajouter une sauce
 exports.createSauce = (req, res, next) => {
-  console.log(req.body ) // pour voir si on recoit une reponse NON je ne recois rien du tout
+  console.log(req.body); // pour voir si on recoit une reponse NON je ne recois rien du tout
   // ONEMLI // Transforme la chaîne de caractère en objet
-  const sauceObject = JSON.parse(req.body.sauce)
-   // suprimer l'id creer d'office 
+  const sauceObject = JSON.parse(req.body.sauce);
+  // suprimer l'id creer d'office
   delete sauceObject._id;
   // nouvelle Sauce  a partir du model modelsSauce
   const sauce = new Sauce({
@@ -16,7 +16,7 @@ exports.createSauce = (req, res, next) => {
       req.file.filename
     }`,
   });
-  
+
   sauce
     // sauvegarde ds mongoDB
     .save()
@@ -41,7 +41,7 @@ exports.findSingleSauce = (req, res, next) => {
   })
     .then((sauce) => {
       res.status(200).json(sauce);
-      console.log('tu as reussi a choisir une sauce par son id')
+      // console.log("tu as reussi a choisir une sauce par son id");
     })
     .catch((error) => {
       res.status(404).json({
@@ -50,22 +50,28 @@ exports.findSingleSauce = (req, res, next) => {
     });
 };
 
-
-
-// error a modify 
-// peut etre a modifier 
+// MODIFIER une sauce
 exports.modifySauce = (req, res, next) => {
-  const sauceObject = req.file ? {
-...JSON.parse(req.body.sauce),
-imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
-  } : {...req.body.sauce}
-console.log(req.body.sauce)
-  // not sure if its right
-  // Sauce.updateOne({ _id: req.params.id }, sauce)
-  // On prend ce identifiant et on modifie 
-  // pour qui correspond aux parametres de la req
-  Sauce.updateOne({ ...req.body, id }, sauce)
-
+  console.log("---> inside put then you do a req the res is :");
+  const sauceObject = req.file
+    ? // si req.file existe (le client a ajouter une image) alors on recupere la chaine de caractere(req.body.sauce) et on la parse en object JSON.parse et on modifie l'image URL.
+      {
+        ...JSON.parse(req.body.sauce),
+        imageUrl: `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`,
+      }
+    : // sinon on prend le corps de la requete
+      { ...req.body };
+  // ici ce que l'on fait on selection l'object a modifier grace a son id et on modifie ...
+  console.log("--->req.body _______________");
+  console.log(req.body);
+  // CHARGER les modifications dans la bd
+  Sauce.updateOne(
+    { _id: req.params.id },
+    // On prend cette object que l'on a créer {...sauceObject} et on modifie son identifiant pour correspondre à la req
+    { ...sauceObject, _id: req.params.id }
+  )
     .then(() => {
       res.status(201).json({
         message: "Sauce updated successfully!",
@@ -74,31 +80,28 @@ console.log(req.body.sauce)
     .catch((error) => {
       res.status(400).json({
         error: error,
-      });console.log('sauce not update')
+      });
     });
 };
 
-
-
-
+// SUPRIMER une sauce //reacrive ceux qui sont griser
 exports.deleteSauce = (req, res, next) => {
-  // not sure if sauce is not enough
-  Sauce.deleteOne({ _id: req.params.id })
-    .then(() => {
-      res.status(200).json({
-        message: "Deleted!",
+  Sauce.findOne({ _id: req.params.id })
+    .then((sauce) => {
+      console.log("--->sauce Sauce.findOne({ _id: req.params.id }) :");
+      console.log(sauce); // sauce represente le document retourner par findOne correspondant a l'argurment id
+      const filename = sauce.imageUrl.split("/images/")[1];
+      fs.unlink(`images/${filename}`, () => {
+        Sauce.deleteOne({ _id: req.params.id })
+          .then(() => res.status(200).json({ message: "Objet supprimé !" }))
+          .catch((error) => res.status(400).json({ error }));
       });
     })
-    .catch((error) => {
-      res.status(400).json({
-        error: error,
-      });
-    });
+    .catch((error) => res.status(500).json({ error }));
 };
 
+// RECUPERER tout les sauces
 exports.getAllSauce = (req, res, next) => {
-  // trouver dans sauce ?!
-  console.log((req.body) + 'choisir toutes les sauces')
   Sauce.find()
     .then((allSauce) => {
       res.status(200).json(allSauce);
@@ -109,5 +112,3 @@ exports.getAllSauce = (req, res, next) => {
       });
     });
 };
-
-// exports.like;
