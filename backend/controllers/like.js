@@ -29,7 +29,10 @@ exports.createLike = (req, res, next) => {
 
       //   like = 0 likes= 0, pas de vote
       //   si le usersLiked est TRUE et si like === -1 [diminuer le like a 0]
-      if (object.usersLiked.includes(req.body.userId) && req.body.like === -1) {
+      else if (
+        object.usersLiked.includes(req.body.userId) &&
+        req.body.like === -1
+      ) {
         console.log("--->userId est dans usersLiked ET like = 0");
         Sauce.updateOne(
           { _id: req.params.id },
@@ -42,7 +45,7 @@ exports.createLike = (req, res, next) => {
           .catch((error) => res.status(404).json({ error }));
       }
       //   si le usersDisliked est TRUE et si like === +1 [diminuer le dislike a 0]
-      if (
+      else if (
         object.usersDisliked.includes(req.body.userId) &&
         req.body.dislike === 1
       ) {
@@ -58,7 +61,7 @@ exports.createLike = (req, res, next) => {
           .catch((error) => res.status(404).json({ error }));
       }
       //   si le usersDisliked est FALSE et si like === -1 [augmenter le dislike a 1]
-      if (
+      else if (
         !object.usersDisliked.includes(req.body.userId) &&
         req.body.dislike === -1
       ) {
