@@ -77,8 +77,7 @@ exports.createLike = (req, res, next) => {
           .catch((error) => res.status(404).json({ error }));
       }
 
-      //   Si je met plusieurs if je peux executer le if et le else donc 2 commandes. En effet le else prend en compte seulement le dernier if
-      //   Du coup ici le else est tjs executer pour les 3/4 if qui se touve au dessus (sauf le dernier) quoi faire
+      
       else {
         console.log("___> instruction non execute");
         res.status(201).json({
