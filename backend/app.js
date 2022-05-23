@@ -3,10 +3,12 @@ const mongoose = require("mongoose");
 const userRoutes = require("./routes/user");
 const piquanteRoutes = require("./routes/piquante");
 const path = require("path");
+const helmet = require("helmet")
+require('dotenv').config()
 
 mongoose
   .connect(
-    "mongodb+srv://gs_yasin:azerty17@cluster0.fgdhg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    process.env.DB_URL,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))
@@ -28,6 +30,8 @@ app.use((req, res, next) => {
 });
 
 // Permet de parser et de mettre dans le body toutes les requetes
+
+app.use(helmet());
 app.use(express.json());
 // /image avant ou apres
 app.use("/images", express.static(path.join(__dirname, "images")));
