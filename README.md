@@ -4,7 +4,10 @@ PROJET N°06 - CONSTRUISEZ UNE API SECURISEE POUR UNE APPLICATION D'AVIS GASTRON
 Scénario
 Vous avez passé la dernière année en tant que développeur back-end indépendant et vous avez travaillé sur plusieurs projets de tailles et de difficultés variées.
 
-La semaine dernière, vous avez reçu un message sur votre plateforme de freelance vous demandant de l'aide pour un nouveau projet. Les sauces piquantes sont de plus en plus populaires, en grande partie grâce à la série YouTube « Hot Ones » . C’est pourquoi ce nouveau client, la marque de condiments à base de piment Piiquante, veut développer une application web de critique des sauces piquantes appelée « Hot Takes » .
+La semaine dernière, vous av!
+ez reçu un message sur votre plateforme de freelance vous demandant de l'aide pour un nouveau projet. Les sauces piquantes sont de plus en plus populaires, en grande partie grâce à la série YouTube « Hot Ones » . C’est pourquoi ce nouveau client, la marque de condiments à base de piment Piiquante, veut développer une application web de critique des sauces piquantes appelée « Hot Takes » .
+
+[68747470733a2f2f757365722e6f632d7374617469632e636f6d2f75706c6f61642f323032312f30372f32392f31363237353630353539363335345f5069697175616e74654c6f676f2e706e67](https://user-images.githubusercontent.com/73762913/169850848-ff8f6f2b-9aa0-47fc-948c-ac0aab61452d.png)
 
 Deux piments rouges dans dans un bol, avec le nom en rouge 
 
