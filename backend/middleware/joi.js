@@ -1,19 +1,33 @@
 const Joi = require ('joi')
 
-
-// au debut j'essaye que avec email 
-// apres je  verais avec password
-
-// on veut un min 10 caractere pour email 
-const authSchema = Joi.object({
-    email:Joi.string().min(10).max(24).required(),
-    password:Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
+const authSchema = Joi.object().keys({
+    email:Joi.string().email().required(),
+    password:Joi.string().min(10).max(24).required()
 })
 
+
+authSchema.validate({email: "req.body.email"})
+
 exports.email = (req,res,next) => { 
-    console.log("je suis dans le middleware joi")
-    authSchema;
-    console.log(req.body)
-    console.log("execution de authSchema")
-    // next()
+    if(authSchema.validate(req.body)){
+        console.log("je suis dans le middleware joi")
+        console.log("-------> req.body")
+        console.log(req.body)
+        // authSchema.validate({email: req.body.email, password: req.body.password})
+        // authSchema.validate(req.body)
+ 
+        next()
+    } else{
+        res.status(400).json({ error: "erreur de data validation" });
+        console.log("erreur ne convient pas a joi")
+    }
+    
 }
+
+
+
+
+// Pour l'instant je fais des tests  pour voir unn peux comment ca fonctionne joi. 
+// J'ai rajouté if else.
+
+// .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))

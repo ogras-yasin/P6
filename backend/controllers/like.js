@@ -10,12 +10,10 @@ exports.createLike = (req, res, next) => {
       // utilisation de l'operateur $pull (mongoDB)
       // utilisation de la methode javascript includes()
 
-      // si le usersLiked est false FALSE ET si like ===1 [ajout de like]
-      // dans ta requete ne met pas de guillement a 1 ["like" : 1]
+  
       //AJOUTER TOUTES LES CONDITIONS DE LOGIQUE dans les [if]
+      // si le usersLiked est false FALSE ET si like ===1 [ajout de like]  
       if (!object.usersLiked.includes(req.body.userId) && req.body.like === 1) {
-        // console.log("instructions execute");
-        // console.log(req.body);
         // syntax updateOne(filter, update, options)
         Sauce.updateOne(
           { _id: req.params.id }, //filter
@@ -33,7 +31,6 @@ exports.createLike = (req, res, next) => {
         object.usersLiked.includes(req.body.userId) &&
         req.body.like === -1
       ) {
-        console.log("--->userId est dans usersLiked ET like = 0");
         Sauce.updateOne(
           { _id: req.params.id },
           //   diminuer le like et enlever l'userId de la BDD
@@ -65,7 +62,6 @@ exports.createLike = (req, res, next) => {
         !object.usersDisliked.includes(req.body.userId) &&
         req.body.dislike === -1
       ) {
-        console.log("--->userId n'est pas dans usersDisliked ET like = -1");
         Sauce.updateOne(
           { _id: req.params.id },
           //   inc le dislikes et ajouter le userId dans le tableau usersDisliked
@@ -79,12 +75,11 @@ exports.createLike = (req, res, next) => {
 
       
       else {
-        console.log("___> instruction non execute");
+        console.log("---> instruction non execute");
         res.status(201).json({
-          msg: "aucune instruction ne convient dans la logique likes usersLiked",
-          object,
+          msg: "aucune instruction ne convient dans la logique likes usersLiked"
         });
       }
     })
-    .catch((error) => res.status(404).json({ msgaa: error }));
+    .catch((error) => res.status(404).json({ msg: error }));
 };
