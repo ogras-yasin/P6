@@ -6,6 +6,8 @@ const path = require("path");
 const helmet = require("helmet")
 require('dotenv').config()
 
+console.log("----------------------------process",process.env,"---finsih")
+
 mongoose
   .connect(
     process.env.DB_URL,
@@ -16,6 +18,9 @@ mongoose
 
 const app = express();
 
+// helmet({
+//   crossOriginResourcePolicy: false,
+// })
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -31,7 +36,10 @@ app.use((req, res, next) => {
 
 // Permet de parser et de mettre dans le body toutes les requetes
 
-app.use(helmet());
+app.use(helmet({
+  // empecher le cross origin error
+  crossOriginResourcePolicy: false,
+}));
 app.use(express.json());
 // /image avant ou apres
 app.use("/images", express.static(path.join(__dirname, "images")));
