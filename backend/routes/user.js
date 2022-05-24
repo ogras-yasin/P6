@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userCtrl = require("../controllers/user");
 // const check_email =require("../middleware/check-email");
-// const authSchema = require("../middleware/joi")
+const joi = require("../middleware/joi")
 // const check_email = require("../middleware/check-email")
 
 // route de user
