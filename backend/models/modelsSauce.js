@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-// est il obliger de mettre une maj a schema
+// est il obliger de mettre une maj a schema / OUI
 const modelsSauceSchema = mongoose.Schema({
   userId: { type: String, required: true },
   name: { type: String, required: true },
@@ -14,9 +14,6 @@ const modelsSauceSchema = mongoose.Schema({
   // système de like disliked
   likes: { type: Number, default: 0 },
   dislikes: { type: Number, default: 0 },
-  // pourquoi [String] avec des crochets ??
-  // default property ??
-  // usersLiked: [ "String <userId>" ] — tableau des identifiants des utilisateurs qui ont aimé (= liked) la sauce
   usersLiked: { type: [String], default: [] },
   usersDisliked: { type: [String], default: [] },
 });

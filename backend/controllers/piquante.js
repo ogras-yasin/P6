@@ -4,6 +4,7 @@ const fs = require("fs"); // Importation du package file system 'fs'
 
 // AJOUTER UNE NOUVELLE SAUCE : Middleware pour ajouter une sauce
 exports.createSauce = (req, res, next) => {
+  // console.log(req);
   console.log(req.body); // pour voir si on recoit une reponse NON je ne recois rien du tout
   // ONEMLI // Transforme la chaîne de caractère en objet
   const sauceObject = JSON.parse(req.body.sauce);
@@ -41,7 +42,7 @@ exports.findSingleSauce = (req, res, next) => {
   })
     .then((sauce) => {
       res.status(200).json(sauce);
-      // console.log("tu as reussi a choisir une sauce par son id");
+      console.log("tu as reussi a choisir une sauce par son id");
     })
     .catch((error) => {
       res.status(404).json({

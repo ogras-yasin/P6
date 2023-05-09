@@ -6,7 +6,6 @@ const path = require("path");
 const helmet = require("helmet")
 require('dotenv').config()
 
-console.log("----------------------------process",process.env,"---finsih")
 
 mongoose
   .connect(
@@ -18,9 +17,6 @@ mongoose
 
 const app = express();
 
-// helmet({
-//   crossOriginResourcePolicy: false,
-// })
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -34,14 +30,14 @@ app.use((req, res, next) => {
   next();
 });
 
-// Permet de parser et de mettre dans le body toutes les requetes
 
 app.use(helmet({
   // empecher le cross origin error
   crossOriginResourcePolicy: false,
 }));
+// Permet de parser et de mettre dans le body toutes les requetes
 app.use(express.json());
-// /image avant ou apres
+
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/api/auth", userRoutes);
 app.use("/api/sauces", piquanteRoutes);
@@ -57,8 +53,3 @@ module.exports = app;
   Express will execute the functions you passed to app.use() in order. 
   express.json() is a built in middleware function in Express starting from v4.16.0. It parses incoming JSON requests and puts the parsed data in req.body.
    */
-
-// c'est quoi la route du sauce
-// premier objectif est de creer la route post
-
-////////
