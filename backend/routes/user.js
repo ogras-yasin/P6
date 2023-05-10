@@ -5,7 +5,8 @@ const userCtrl = require("../controllers/user");
 const joi = require("../middleware/joi")
 // const check_email = require("../middleware/check-email")
 
-// route de user
+// carte vers les controleurs
+//separation routes de controllers
 router.post("/signup", userCtrl.signup);
 router.post("/login", userCtrl.login);
 

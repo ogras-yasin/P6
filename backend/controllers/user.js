@@ -1,6 +1,8 @@
+
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+require("dotenv").config()
 
 exports.signup = (req, res, next) => {
   bcrypt
@@ -45,13 +47,14 @@ exports.login = (req, res, next) => {
           if (!valid) {
             return res.status(401).json({ error: "Mot de passe incorrect !" });
           }
-          // une fois l'email trouve puis verifier le mot de passe le serveur repond l'userId et le token 
+          // une fois l'email trouve puis verifier le mot de passe, le serveur repond l'userId et le token 
           console.log(user._id)
           res.status(200).json({
-             // la cle userId :(correspond a) user TROUVE dans la base de donne,
             //  In computing and telecommunications, the PAYLOAD is the part of transmitted data that is the actual intended message. Headers and metadata are sent only to enable payload delivery
+// ce token contient l'ID de l'utilisateur en tant que payload 
+// (les données encodées dans le token) ;
             userId: user._id,
-            token: jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
+            token: jwt.sign({ userId: user._id }, process.env.SECRET_TOKEN, {
               expiresIn: "24h",
             }),
           });
